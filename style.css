@@ -854,12 +854,12 @@ footer span a:hover {
     .linkedin-btn,
     .whatsapp-btn {
         display: inline-block;
-        padding: 20px 25px;
+        padding: 10px 15px;
         background-color: #0077B5; /* LinkedIn Blue color */
         color: #fff;
         text-decoration: none;
-        border-radius: 20px;
-        transition: background-color 0.7s;
+        border-radius: 5px;
+        transition: background-color 0.3s;
     }
     
     .whatsapp-btn {
