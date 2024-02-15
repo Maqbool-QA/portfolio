@@ -858,7 +858,7 @@ footer span a:hover {
         background-color: #0077B5; /* LinkedIn Blue color */
         color: #fff;
         text-decoration: none;
-        border-radius: 10px;
+        border-radius: 20px;
         transition: background-color 0.7s;
     }
     
