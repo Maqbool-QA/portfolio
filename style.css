@@ -93,7 +93,9 @@ section .title::after {
 
 /* navbar styling */
 .navbar {
-    position: static;
+    position: fixed;
+    background-color: white;
+    position: fixed;
     width: 100%;
     z-index: 999;
     padding: 30px 0px;
@@ -124,7 +126,7 @@ section .title::after {
 }
 
 .navbar.sticky .logo a span {
-    color: #fff;
+    color: red;
 }
 
 .navbar .menu li {
