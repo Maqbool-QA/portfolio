@@ -105,7 +105,7 @@ section .title::after {
 
 .navbar.sticky {
     position: fixed;
-    padding: 15px 0;
+    padding: 10px 0;
     background: white;
 }
 
