@@ -31,7 +31,7 @@ html {
 
 /* all similar content styling codes */
 section {
-    padding: 100px 0;
+    padding: 50px 0;
 }
 
 .max-width {
@@ -94,6 +94,8 @@ section .title::after {
 /* navbar styling */
 .navbar {
     position: fixed;
+    background-color: white;
+    position: fixed;
     width: 100%;
     z-index: 999;
     padding: 30px 0px;
@@ -102,8 +104,9 @@ section .title::after {
 }
 
 .navbar.sticky {
-    padding: 20px 0;
-    background: crimson;
+    position: fixed;
+    padding: 10px 0;
+    background: ghostwhite;
 }
 
 .navbar .max-width {
@@ -124,7 +127,7 @@ section .title::after {
 }
 
 .navbar.sticky .logo a span {
-    color: #fff;
+    color: red;
 }
 
 .navbar .menu li {
@@ -148,7 +151,7 @@ section .title::after {
 }
 
 .navbar.sticky .menu li a:hover {
-    color: #fff;
+    color: blue;
 }
 
 /* menu btn styling */
@@ -845,4 +848,30 @@ footer span a:hover {
         font-size: 23px;
         line-height: 38px;
     }
+    .contact-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .linkedin-btn,
+    .whatsapp-btn {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #0077B5; /* LinkedIn Blue color */
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    
+    .whatsapp-btn {
+        background-color: #25D366; /* WhatsApp Green color */
+    }
+    
+    .linkedin-btn:hover,
+    .whatsapp-btn:hover {
+        background-color: #005183; /* Darker shade for both buttons on hover */
+    }
+    
 }
