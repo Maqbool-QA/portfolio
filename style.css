@@ -7,7 +7,7 @@
     box-sizing: border-box;
     text-decoration: none;
 }
-/* ---- reset ---- */
+/* ---- reset ---- 
 
 body {
     margin: 0;
@@ -19,7 +19,7 @@ body {
     vertical-align: bottom;
   }
   
-  /* ---- particles.js container ---- */
+  /* ---- particles.js container ---- 
   
   #particles-js {
     position: absolute;
