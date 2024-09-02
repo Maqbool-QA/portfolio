@@ -1,0 +1,40 @@
+name: Deploy Website
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          
+      - name: Install dependencies
+        run: npm i
+        
+      - name: Run Cypress Tests
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            try {
+              execSync('npm run api_dev', { stdio: 'inherit' });
+            } catch (error) {
+              console.error('Cypress tests failed.');
+              process.exit(1);
+            }
+
+      - name: Deploy to GitHub Pages
+        if: success() # Only deploy if tests pass
+        uses: peaceiris/actions-gh-pages@v2
+        with:
+          github_token: ${{ secrets.PAT }}
+          publish_dir: ./public
