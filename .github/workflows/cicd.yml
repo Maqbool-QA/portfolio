@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
           
@@ -21,7 +21,7 @@ jobs:
         run: npm i
         
       - name: Run Cypress Tests
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           script: |
             const { execSync } = require('child_process');
@@ -34,7 +34,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: success() # Only deploy if tests pass
-        uses: peaceiris/actions-gh-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PAT }}
           publish_dir: ./public
