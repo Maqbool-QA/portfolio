@@ -18,7 +18,7 @@ jobs:
           node-version: 14
           
       - name: Install dependencies
-        run: npm i
+        run: npm install
         
       - name: Run Cypress Tests
         uses: actions/github-script@v6
