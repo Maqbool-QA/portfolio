@@ -1,0 +1,169 @@
+# name: Build and Push to GAR
+
+# on:
+#   push:
+#     branches:
+#       - qa
+
+# env:
+#   PROJECT_ID: fluted-polymer-376517 # TODO: update Google Cloud project id
+#   GAR_LOCATION: us-central1-docker.pkg.dev # TODO: update Artifact Registry location
+#   REPO_NAME: test
+#   APP_REPO: argocd
+#   QA_REPO: Automation
+
+
+
+# jobs:
+#   deploy:
+#     permissions:
+#       contents: 'read'
+#       id-token: 'write'
+#     runs-on: ubuntu-latest
+#     steps:
+
+#       # - name: 'before Use gcloud CLI'
+#       #   run: 'pwd'
+
+#       # - name: 'before Use gcloud CLI'
+#       #   run: 'ls'
+#       # - uses: actions/checkout@v3
+#       #   with:
+#       #     repository: ${{ github.repository_owner }}/${{ env.QA_REPO }}
+#       #     token: ${{ secrets.AUTOMATION_REPO_TOKEN }}
+      
+#       # - id: 'auth'
+#       #   uses: 'google-github-actions/auth@v2'
+#       #   with:
+#       #     credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
+
+#       # - name: 'Set up Cloud SDK'
+#       #   uses: 'google-github-actions/setup-gcloud@v2'
+
+#       # - name: 'Use gcloud CLI'
+#       #   run: 'gcloud info'
+        
+#       # - name: 'pre Use gcloud CLI'
+#       #   run: 'pwd'
+
+#       # - name: 'pre Use gcloud CLI'
+#       #   run: 'ls'
+
+#       # - name: 'cypress FE_SINGLE_TESTCASE'
+#       #   run: |
+#       #      npm i
+#       #      npm run FE_SINGLE_TESTCASE
+
+#       # - name: 'cypress FE_build_pass_suite'
+#       #   run: |
+#       #      npm i
+#       #      npm run FE_build_pass_suite
+      
+      
+      
+#       # - name: Cypress Front-end Build Pass Suite
+#       #   uses: cypress-io/github-action@v6
+#       #   continue-on-error: true
+#       #   with:
+#       #     start: |
+#       #       npm i
+#       #       npm run FE_SINGLE_TESTCASE
+#       #     # working-directory: /home/runner/work/frontend/Automation
+#       #     config-file: config/eazyopsConfig.js
+#       #     spec: "eazyops/Specs/buildPassSuite/login_page.spec.js"
+        
+#       # - name: Cypress Front-end Build Pass Suite
+#       #   uses: cypress-io/github-action@v6
+#       #   continue-on-error: true
+#       #   with:
+#       #     start: |
+#       #       npm i
+#       #       npm run FE_build_pass_suite
+#       #     # working-directory: /home/runner/work/frontend/Automation
+#       #     config-file: config/eazyopsConfig.js
+#       #     spec: "eazyops/Specs/buildPassSuite/**.spec.js"
+          
+#       # - name: 'middle gcloud CLI'
+#       #   run: 'pwd'
+
+#       # - name: 'middle gcloud CLI'
+#       #   run: 'ls'
+
+#       # - name: Upload report
+#       #   uses: cypress-io/github-action@v6
+#       #   continue-on-error: true
+#       #   with:
+#       #     start: |
+#       #       npm run generateZiraReport
+#       #     config-file: config/eazyopsConfig.js
+#       #     spec: "eazyops/Specs/buildPassSuite/**.spec.js"
+#       #     # working-directory: /home/runner/work/frontend/Automation
+         
+#       # - name: 'post gcloud CLI'
+#       #   run: 'pwd'
+
+#       # - name: 'post gcloud CLI'
+#       #   run: 'ls'
+        
+#       - name: Checkout
+#         uses: actions/checkout@v2
+
+#       # Authenticate Docker to Google Cloud Artifact Registry
+#       - name: Docker Auth
+#         id: docker-auth
+#         uses: 'docker/login-action@v1'
+#         with:
+#           username: _json_key
+#           password: '${{ secrets.GCP_CREDENTIALS }}'
+#           registry: '${{ env.GAR_LOCATION }}'
+
+#       - name: Build and Push Container
+#         run: |-
+#           docker build -t "${{ env.GAR_LOCATION }}/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/frontend-qa:${{ github.sha }}" ./
+#           docker push "${{ env.GAR_LOCATION }}/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/frontend-qa:${{ github.sha }}"
+#       - uses: actions/checkout@v3
+#         with:
+#           repository: ${{ github.repository_owner }}/${{ env.APP_REPO }}
+#           token: ${{ secrets.ARGO_REPO_TOKEN }}
+#           ref: yamls
+                    
+#       - uses: yokawasa/action-setup-kube-tools@v0.9.2
+#         with:
+#           setup-tools: |-
+#             kustomize
+#           kustomize: '5.0.1'
+#       - run: |-
+#           kustomize version
+#           cd apps/qa/frontend
+#           kustomize edit set image "${{ env.GAR_LOCATION }}/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/frontend-qa:${{ github.sha }}"
+#           kustomize build
+#           cat kustomization.yaml
+#           # git add .
+#           # git commit -m 'BASE image update'
+          
+#       - uses: stefanzweifel/git-auto-commit-action@v4
+#         with:
+#           branch: yamls
+#           commit_message: frontend image tag pushed '${{  github.sha  }}'
+#   slack-workflow-status:
+#     if: always()
+#     name: Post Workflow Status To Slack
+#     needs:
+#       - deploy
+#     runs-on: ubuntu-latest
+#     # actions.read permission is required.
+#     permissions:
+#       actions: 'read'
+#     steps:
+#       - name: Slack Workflow Notification
+#         uses: Gamesight/slack-workflow-status@master
+#         with:
+#           # Required Input
+#           repo_token: ${{secrets.GITHUB_TOKEN}}
+#           slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
+#           # Optional Input
+#           channel: '#devops-ci'
+#           name: 'EazyOps CI'
+#           icon_emoji: ':poop:'
+#           icon_url: 'https://avatars0.githubusercontent.com/u/1701160?s=96&v=4'
+      
