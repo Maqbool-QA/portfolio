@@ -9,19 +9,29 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Website Code
         uses: actions/checkout@v3
+        with:
+          repository: 'Maqbool-QA/portfolio'
+
+      - name: Checkout Cypress Tests
+        uses: actions/checkout@v3
+        with:
+          repository: 'Maqbool-QA/testPracticeCICD'
+          path: cypress-tests
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 14
-          
-      - name: Install dependencies
-        run: npm i
-        
+
+      - name: Install Cypress Dependencies
+        run: npm install
+        working-directory: ./cypress-tests
+
       - name: Run Cypress Tests
         run: npm run api_dev
+        working-directory: ./cypress-tests
 
       - name: Deploy to GitHub Pages
         if: success()
