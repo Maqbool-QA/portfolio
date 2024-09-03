@@ -15,25 +15,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
           
       - name: Install dependencies
         run: npm install
         
       - name: Run Cypress Tests
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const { execSync } = require('child_process');
-            try {
-              execSync('npm run api_dev', { stdio: 'inherit' });
-            } catch (error) {
-              console.error('Cypress tests failed.');
-              process.exit(1);
-            }
+        run: npm run api_dev
 
       - name: Deploy to GitHub Pages
-        if: success() # Only deploy if tests pass
+        if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PAT }}
