@@ -28,6 +28,12 @@ jobs:
         with:
           node-version: 14
 
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Website
+        run: npm run build
+
       - name: Install Cypress Dependencies
         run: npm install
         working-directory: ./cypress-tests
