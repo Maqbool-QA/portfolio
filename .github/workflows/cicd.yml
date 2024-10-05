@@ -1,0 +1,44 @@
+name: Deploy Website
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Website Code
+        uses: actions/checkout@v3
+        with:
+          repository: 'Maqbool-QA/portfolio'
+          ref: 'develop'
+
+      - name: Checkout Cypress Tests
+        uses: actions/checkout@v3
+        with:
+          repository: 'Maqbool-QA/testPracticeCICD'
+          token: ${{ secrets.PAT }}
+          path: cypress-tests
+          ref: 'master'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Install Cypress Dependencies
+        run: npm install
+        working-directory: ./cypress-tests
+
+      - name: Run Cypress Tests
+        run: npm run api_dev
+        working-directory: ./cypress-tests
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PAT }}
+          publish_dir: ./public
